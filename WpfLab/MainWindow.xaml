@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLab"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Отдел периодики" Height="350" Width="525">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
@@ -13,12 +13,20 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <Menu Grid.Row="0">
-      <MenuItem Header="File" />
-      <MenuItem Header="File" />
-      <MenuItem Header="File" />
+      <MenuItem Header="Файл" >
+        <MenuItem Header="Открыть базу" />
+        <MenuItem Header="Закрыть текущую базу" />
+        <Separator/>
+        <MenuItem Header="Выйти" />
+      </MenuItem>
+      <MenuItem Header="Правка">
+        <MenuItem Header="Копировать" Command="Copy" />
+        <MenuItem Header="Вставить" Command="Paste" />
+      </MenuItem>
+      <MenuItem Header="Выйти" />
     </Menu>
 
-    <StackPanel Grid.Row="1">
+    <DockPanel Grid.Row="1">
       <TabControl>
         <TabItem Header="Читатели">
           <DataGrid>
@@ -30,8 +38,13 @@
 
           </DataGrid>
         </TabItem>
+        <TabItem Header="Выдачи">
+          <DataGrid>
+
+          </DataGrid>
+        </TabItem>
       </TabControl>
-    </StackPanel>
+    </DockPanel>
 
     <StatusBar Grid.Row="2">
       <StatusBarItem Content="Loading.."/>
