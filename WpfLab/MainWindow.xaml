@@ -6,48 +6,69 @@
         xmlns:local="clr-namespace:WpfLab"
         mc:Ignorable="d"
         Title="Отдел периодики" Height="350" Width="525">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="Auto"/>
-    </Grid.RowDefinitions>
-    <Menu Grid.Row="0">
-      <MenuItem Header="Файл" >
-        <MenuItem Header="Открыть базу" />
-        <MenuItem Header="Закрыть текущую базу" />
-        <Separator/>
-        <MenuItem Header="Выйти" />
-      </MenuItem>
-      <MenuItem Header="Правка">
-        <MenuItem Header="Копировать" Command="Copy" />
-        <MenuItem Header="Вставить" Command="Paste" />
-      </MenuItem>
-      <MenuItem Header="Выйти" />
-    </Menu>
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="20 8 20 8" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="30" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Файл" >
+                <MenuItem Header="Открыть базу" />
+                <MenuItem Header="Закрыть текущую базу" />
+                <Separator/>
+                <MenuItem Header="Выйти" />
+            </MenuItem>
+            <MenuItem Header="Правка">
+                <MenuItem Header="Копировать" Command="Copy" />
+                <MenuItem Header="Вставить" Command="Paste" />
+            </MenuItem>
+            <MenuItem Header="Справка" />
+        </Menu>
 
-    <DockPanel Grid.Row="1">
-      <TabControl>
-        <TabItem Header="Читатели">
-          <DataGrid>
-            
-          </DataGrid>
-        </TabItem>
-        <TabItem Header="Издательства">
-          <DataGrid>
+        <DockPanel Grid.Row="1">
+            <TabControl>
+                <TabItem Header="Выдачи">
+                    <DataGrid AutoGenerateColumns="False" x:Name="issuancesGrid">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Reader.Name}" Header="Читатель" Width="150"/>
+                            <DataGridTextColumn Binding="{Binding Date}" Header="Дата" Width="80"/>
+                            <DataGridTextColumn Binding="{Binding Publication.Name}" Header="Периодика" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="50"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Читатели">
+                    <DataGrid AutoGenerateColumns="False" x:Name="readersGrid">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Имя" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Birthday}" Header="Дата рождения" Width="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Издательства">
+                    <DataGrid AutoGenerateColumns="False" x:Name="publishingsGrid">
 
-          </DataGrid>
-        </TabItem>
-        <TabItem Header="Выдачи">
-          <DataGrid>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Периодика">
+                    <DataGrid AutoGenerateColumns="False" x:Name="publicationsGrid">
 
-          </DataGrid>
-        </TabItem>
-      </TabControl>
-    </DockPanel>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
 
-    <StatusBar Grid.Row="2">
-      <StatusBarItem Content="Loading.."/>
-    </StatusBar>
-  </Grid>
+        <StatusBar Grid.Row="2">
+            <StatusBarItem Content="Loading.."/>
+        </StatusBar>
+    </Grid>
 </Window>
