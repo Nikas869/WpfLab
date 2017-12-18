@@ -18,9 +18,13 @@ namespace WpfLab
             context = new Context();
             context.Issuances.Load();
             context.Readers.Load();
+            context.Publishings.Load();
+            context.Publications.Load();
 
             issuancesGrid.ItemsSource = context.Issuances.Local.ToBindingList();
             readersGrid.ItemsSource = context.Readers.Local.ToBindingList();
+            publishingsGrid.ItemsSource = context.Publishings.Local.ToBindingList();
+            publicationsGrid.ItemsSource = context.Publications.Local.ToBindingList();
         }
     }
 }

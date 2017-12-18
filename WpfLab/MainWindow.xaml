@@ -56,12 +56,22 @@
                 </TabItem>
                 <TabItem Header="Издательства">
                     <DataGrid AutoGenerateColumns="False" x:Name="publishingsGrid">
-
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Название издательства" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="120"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Периодика">
                     <DataGrid AutoGenerateColumns="False" x:Name="publicationsGrid">
-
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding ISSN}" Header="ISSN" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Date}" Header="Дата" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Publishing}" Header="Издательство" Width="120"/>
+                        </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
             </TabControl>
