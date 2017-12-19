@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Windows;
 using WpfLab.Models;
+using WpfLab.Services;
 
 namespace WpfLab
 {
@@ -10,6 +11,7 @@ namespace WpfLab
     public partial class MainWindow : Window
     {
         private readonly Context context;
+        public readonly PeriodicalService periodicalService;
 
         public MainWindow()
         {
@@ -20,6 +22,8 @@ namespace WpfLab
             context.Readers.Load();
             context.Publishings.Load();
             context.Publications.Load();
+
+            periodicalService = new PeriodicalService(context);
 
             issuancesGrid.ItemsSource = context.Issuances.Local.ToBindingList();
             readersGrid.ItemsSource = context.Readers.Local.ToBindingList();
