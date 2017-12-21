@@ -61,8 +61,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\SelectedRowToBoolConverter.cs" />
     <Compile Include="Services\PeriodicalService.cs" />
+    <Compile Include="Views\PublicationAddWindow.xaml.cs">
+      <DependentUpon>PublicationAddWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReaderAddWindow.xaml.cs">
+      <DependentUpon>ReaderAddWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,12 +80,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PublicationAddWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReaderAddWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Context.cs" />
     <Compile Include="Models\Issuance.cs" />
     <Compile Include="Models\Publication.cs" />
-    <Compile Include="Models\Publishing.cs" />
     <Compile Include="Models\Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -100,6 +112,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\WpfLab.Models.Issuance.datasource" />
+    <None Include="Properties\DataSources\WpfLab.Models.Publication.datasource" />
+    <None Include="Properties\DataSources\WpfLab.Models.Reader.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -110,8 +125,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

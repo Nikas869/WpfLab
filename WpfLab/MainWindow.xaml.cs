@@ -1,9 +1,9 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Windows;
 using System.Windows.Controls;
 using WpfLab.Models;
 using WpfLab.Services;
+using WpfLab.Views;
 
 namespace WpfLab
 {
@@ -22,14 +22,12 @@ namespace WpfLab
             context = new Context();
             context.Issuances.Load();
             context.Readers.Load();
-            context.Publishings.Load();
             context.Publications.Load();
 
             periodicalService = new PeriodicalService(context);
 
             issuancesGrid.ItemsSource = periodicalService.Issuances.ToBindingList();
             readersGrid.ItemsSource = periodicalService.Readers.ToBindingList();
-            publishingsGrid.ItemsSource = periodicalService.Publishings.ToBindingList();
             publicationsGrid.ItemsSource = periodicalService.Publications.ToBindingList();
         }
 
@@ -47,6 +45,32 @@ namespace WpfLab
                 {
                     periodicalService.AddReader(reader);
                 }
+            }
+        }
+
+        private void AddReaderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var readerAddWindow = new ReaderAddWindow();
+            if (readerAddWindow.ShowDialog().Value)
+            {
+                periodicalService.AddReader(readerAddWindow.Reader);
+            }
+        }
+
+        private void DeleteReader_Click(object sender, RoutedEventArgs e)
+        {
+            if (readersGrid.SelectedIndex != -1)
+            {
+                periodicalService.RemoveReader(((Reader)readersGrid.SelectedItem).Id);
+            }
+        }
+
+        private void AddPublicationButton_Click(object sender, RoutedEventArgs e)
+        {
+            var publicationAddWindow = new PublicationAddWindow();
+            if (publicationAddWindow.ShowDialog().Value)
+            {
+                periodicalService.AddPublication(publicationAddWindow.Publication);
             }
         }
     }

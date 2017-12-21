@@ -9,6 +9,5 @@ namespace WpfLab.Models
         public string ISSN { get; set; }
         public DateTime Date { get; set; }
         public int Quantity { get; set; }
-        public virtual Publishing Publishing { get; set; }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLab"
         mc:Ignorable="d"
-        Title="Отдел периодики" Height="350" Width="525">
+        Title="Отдел периодики" Height="360" Width="640">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="10 8 10 8" />
@@ -14,25 +14,6 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Menu Grid.Row="0">
-            <MenuItem Header="Файл" >
-                <MenuItem Header="Открыть базу" />
-                <MenuItem Header="Закрыть текущую базу" />
-                <Separator/>
-                <MenuItem Header="Выйти" />
-            </MenuItem>
-            <MenuItem Header="Правка">
-                <MenuItem Header="Копировать" Command="Copy" />
-                <MenuItem Header="Вставить" Command="Paste" />
-            </MenuItem>
-            <MenuItem Header="Справка" />
-        </Menu>
-
         <DockPanel Grid.Row="1">
             <TabControl>
                 <TabItem Header="Выдачи">
@@ -77,7 +58,20 @@
                                   Grid.Row="0"
                                   x:Name="readersGrid"
                                   ItemsSource="{Binding}"
-                                  RowEditEnding="readersGrid_RowEditEnding">
+                                  RowEditEnding="readersGrid_RowEditEnding" SelectionMode="Single">
+                            <DataGrid.Resources>
+                                <ContextMenu x:Key="readersContextMenu">
+                                    <ContextMenu.Items>
+                                        <MenuItem Header="Удалить"
+                                                  Click="DeleteReader_Click"/>
+                                    </ContextMenu.Items>
+                                </ContextMenu>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource readersContextMenu}" />
+                                </Style>
+                            </DataGrid.RowStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Name, Mode=TwoWay, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" Header="Имя" Width="*"/>
                                 <DataGridTextColumn Binding="{Binding Phone, Mode=TwoWay, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" Header="Телефон" Width="120"/>
@@ -97,36 +91,46 @@
                         </DataGrid>
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1" HorizontalAlignment="Right">
-                            <Button Content="Добавить"/>
-                            <Button Content="Изменить" IsEnabled="{Binding SelectedIndex, ElementName=readersGrid, Converter={StaticResource ResourceKey=myConverter}}"/>
+                            <Button x:Name="AddReaderButton" 
+                                    Content="Добавить" Click="AddReaderButton_Click"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Издательства">
-                    <DataGrid AutoGenerateColumns="False" x:Name="publishingsGrid">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Название издательства" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding Phone}" Header="Телефон" Width="120"/>
-                            <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="120"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
                 <TabItem Header="Периодика">
-                    <DataGrid AutoGenerateColumns="False" x:Name="publicationsGrid">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding ISSN}" Header="ISSN" Width="*"/>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="120"/>
-                            <DataGridTextColumn Binding="{Binding Date}" Header="Дата" Width="120"/>
-                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="120"/>
-                            <DataGridTextColumn Binding="{Binding Publishing}" Header="Издательство" Width="120"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid AutoGenerateColumns="False" 
+                                  x:Name="publicationsGrid"
+                                  Grid.Row="0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding ISSN}" Header="ISSN" Width="120"/>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Название" Width="*"/>
+                                <DataGridTemplateColumn Header="Дата" Width="120">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Date, StringFormat=\{0:d\}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    <DataGridTemplateColumn.CellEditingTemplate>
+                                        <DataTemplate>
+                                            <DatePicker SelectedDate="{Binding Date, Mode=TwoWay, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Binding="{Binding Quantity}" Header="Кол-во" Width="120"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="1" HorizontalAlignment="Right">
+                            <Button x:Name="AddPublicationButton" 
+                                    Content="Добавить" Click="AddPublicationButton_Click"/>
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </DockPanel>
-
-        <StatusBar Grid.Row="2">
-            <StatusBarItem Content="Loading.."/>
-        </StatusBar>
     </Grid>
 </Window>

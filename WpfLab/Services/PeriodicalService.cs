@@ -14,7 +14,6 @@ namespace WpfLab.Services
 
             Context.Issuances.Load();
             Context.Readers.Load();
-            Context.Publishings.Load();
             Context.Publications.Load();
         }
 
@@ -22,15 +21,12 @@ namespace WpfLab.Services
 
         public ObservableCollection<Issuance> Issuances => Context.Issuances.Local;
         public ObservableCollection<Reader> Readers => Context.Readers.Local;
-        public ObservableCollection<Publishing> Publishings => Context.Publishings.Local;
         public ObservableCollection<Publication> Publications => Context.Publications.Local;
 
-        public int AddReader(Reader reader)
+        public void AddReader(Reader reader)
         {
             Context.Readers.Add(reader);
             Save();
-
-            return reader.Id;
         }
 
         public void UpdateReader(Reader reader)
@@ -40,6 +36,21 @@ namespace WpfLab.Services
             entity.Birthday = reader.Birthday;
             entity.Phone = reader.Phone;
 
+            Save();
+        }
+
+        public void RemoveReader(int id)
+        {
+            var readerToRemove = Context.Readers.Find(id);
+            if (readerToRemove != null)
+            {
+                Context.Readers.Remove(readerToRemove);
+            }
+        }
+
+        public void AddPublication(Publication publication)
+        {
+            Context.Publications.Add(publication);
             Save();
         }
 

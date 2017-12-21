@@ -10,7 +10,6 @@ namespace WpfLab.Models
         }
 
         public DbSet<Reader> Readers { get; set; }
-        public DbSet<Publishing> Publishings { get; set; }
         public DbSet<Publication> Publications { get; set; }
         public DbSet<Issuance> Issuances { get; set; }
     }

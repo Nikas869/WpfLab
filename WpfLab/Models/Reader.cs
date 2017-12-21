@@ -5,7 +5,7 @@ namespace WpfLab.Models
 {
     public class Reader
     {
-        private Reader()
+        internal Reader()
         {
         }
 
