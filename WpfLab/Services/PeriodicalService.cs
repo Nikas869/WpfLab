@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.Linq;
 using WpfLab.Models;
 
 namespace WpfLab.Services
@@ -18,17 +20,55 @@ namespace WpfLab.Services
 
         public Context Context { get; }
 
-        public int AddReader(string name, string phone, DateTime birthday)
-        {
-            var reader = new Reader(name, phone, birthday);
+        public ObservableCollection<Issuance> Issuances => Context.Issuances.Local;
+        public ObservableCollection<Reader> Readers => Context.Readers.Local;
+        public ObservableCollection<Publishing> Publishings => Context.Publishings.Local;
+        public ObservableCollection<Publication> Publications => Context.Publications.Local;
 
+        public int AddReader(Reader reader)
+        {
             Context.Readers.Add(reader);
             Save();
 
             return reader.Id;
         }
 
-        private void Save()
+        public void UpdateReader(Reader reader)
+        {
+            var entity = Context.Readers.Find(reader.Id);
+            entity.Name = reader.Name;
+            entity.Birthday = reader.Birthday;
+            entity.Phone = reader.Phone;
+
+            Save();
+        }
+
+        public void AddIssuance(Issuance issuance)
+        {
+            var publication = Context.Publications.Find(issuance.Id);
+            if (publication.Quantity < 1)
+            {
+                throw new Exception();
+            }
+
+            var reader = Context.Readers.Find(issuance.Reader.Id);
+            if (reader.Issuances.Count() > 3)
+            {
+                throw new Exception();
+            }
+
+            Context.Issuances.Add(new Issuance
+            {
+                Date = DateTime.Now,
+                Quantity = 1,
+                Publication = publication,
+                Reader = reader
+            });
+
+            Save();
+        }
+
+        public void Save()
         {
             Context.SaveChanges();
         }
