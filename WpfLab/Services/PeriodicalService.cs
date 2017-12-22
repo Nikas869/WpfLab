@@ -56,27 +56,47 @@ namespace WpfLab.Services
 
         public void AddIssuance(Issuance issuance)
         {
-            var publication = Context.Publications.Find(issuance.Id);
-            if (publication.Quantity < 1)
+            var publication = Context.Publications.Find(issuance.Publication.Id);
+            if (publication.Quantity < issuance.Quantity)
             {
-                throw new Exception();
+                throw new Exception("В наличии нет столько выпусков!");
+            }
+            else
+            {
+                publication.Quantity -= issuance.Quantity;
             }
 
             var reader = Context.Readers.Find(issuance.Reader.Id);
-            if (reader.Issuances.Count() > 3)
+            if (Context.Issuances.Where(iss => iss.Reader.Id == reader.Id).Count() > 3)
             {
-                throw new Exception();
+                throw new Exception("У данного читателя уже 3 выдачи на руках!");
             }
 
             Context.Issuances.Add(new Issuance
             {
                 Date = DateTime.Now,
-                Quantity = 1,
+                Quantity = issuance.Quantity,
                 Publication = publication,
                 Reader = reader
             });
 
             Save();
+        }
+
+        public void CloseIssuance(int id)
+        {
+            var issuance = Context.Issuances.Find(id);
+            Context.Publications.Find(issuance.Publication.Id).Quantity += issuance.Quantity;
+
+            Context.Issuances.Remove(issuance);
+            Save();
+        }
+
+        public void Reload()
+        {
+            Context.Issuances.Load();
+            Context.Readers.Load();
+            Context.Publications.Load();
         }
 
         public void Save()

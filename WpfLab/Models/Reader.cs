@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace WpfLab.Models
 {
@@ -20,7 +19,5 @@ namespace WpfLab.Models
         public string Name { get; set; }
         public string Phone { get; set; }
         public DateTime Birthday { get; set; }
-
-        public virtual IEnumerable<Issuance> Issuances { get; set; }
     }
 }

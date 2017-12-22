@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Windows;
 using System.Windows.Controls;
 using WpfLab.Models;
@@ -72,6 +73,35 @@ namespace WpfLab
             {
                 periodicalService.AddPublication(publicationAddWindow.Publication);
             }
+        }
+
+        private void AddIssuanceButton_Click(object sender, RoutedEventArgs e)
+        {
+            var issuanceAddWindow = new IssuanceAddWindow();
+            if (issuanceAddWindow.ShowDialog().Value)
+            {
+                try
+                {
+                    periodicalService.AddIssuance(issuanceAddWindow.Issuance);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void CloseIssuance_Click(object sender, RoutedEventArgs e)
+        {
+            if (issuancesGrid.SelectedIndex != -1)
+            {
+                periodicalService.CloseIssuance(((Issuance)issuancesGrid.SelectedItem).Id);
+            }
+        }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            periodicalService.Reload();
         }
     }
 }

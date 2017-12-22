@@ -15,7 +15,7 @@
     </Window.Resources>
     <Grid>
         <DockPanel Grid.Row="1">
-            <TabControl>
+            <TabControl SelectionChanged="TabControl_SelectionChanged">
                 <TabItem Header="Выдачи">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -26,7 +26,21 @@
                                   Grid.Row="0"
                                   x:Name="issuancesGrid"
                                   ItemsSource="{Binding}"
-                                  IsReadOnly="True">
+                                  IsReadOnly="True"
+                                  CanUserSortColumns="False">
+                            <DataGrid.Resources>
+                                <ContextMenu x:Key="issuancesContextMenu">
+                                    <ContextMenu.Items>
+                                        <MenuItem Header="Закрыть"
+                                                  Click="CloseIssuance_Click"/>
+                                    </ContextMenu.Items>
+                                </ContextMenu>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource issuancesContextMenu}" />
+                                </Style>
+                            </DataGrid.RowStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Binding="{Binding Reader.Name, Mode=TwoWay, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}" Header="Читатель" Width="150"/>
                                 <DataGridTemplateColumn Header="Дата" Width="80">
@@ -42,9 +56,9 @@
                         </DataGrid>
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1" HorizontalAlignment="Right">
-                            <Button Content="Добавить" />
-                            <Button Content="Закрыть"
-                                   IsEnabled="{Binding issuancesGrid.SelectedIndex}"/>
+                            <Button x:Name="AddIssuanceButton"
+                                    Content="Добавить" 
+                                    Click="AddIssuanceButton_Click"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>
@@ -116,7 +130,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <DatePicker SelectedDate="{Binding Date, Mode=TwoWay, NotifyOnTargetUpdated=True, UpdateSourceTrigger=PropertyChanged}"/>
+                                            <DatePicker SelectedDate="{Binding Date}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellEditingTemplate>
                                 </DataGridTemplateColumn>

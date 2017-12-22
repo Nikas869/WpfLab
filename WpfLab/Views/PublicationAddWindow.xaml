@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfLab.Views"
-        xmlns:Models="clr-namespace:WpfLab.Models" x:Class="WpfLab.Views.PublicationAddWindow"
+        xmlns:Models="clr-namespace:WpfLab.Models"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="WpfLab.Views.PublicationAddWindow"
         mc:Ignorable="d"
         Title="Добавление периодики" Height="240" Width="280" Loaded="Window_Loaded" ResizeMode="NoResize" ShowInTaskbar="False">
     <Window.Resources>
@@ -15,9 +16,7 @@
         </Style>
     </Window.Resources>
     <StackPanel Orientation="Vertical">
-        <Grid x:Name="grid1" 
-              VerticalAlignment="Top" 
-              HorizontalAlignment="Stretch">
+        <Grid x:Name="grid1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -74,15 +73,14 @@
                    HorizontalAlignment="Left" 
                    Grid.Column="0" 
                    Content="Количество:"/>
-            <TextBox x:Name="txtNum"
-                     x:FieldModifier="private"
-                     Grid.Row="3" 
-                     Grid.Column="1"
-                     Margin="3" 
-                     TextChanged="txtNum_TextChanged" 
-                     Text="0"
-                     HorizontalAlignment="Stretch"
-                     Height="23" />
+            <xctk:IntegerUpDown x:Name="txtNum"
+                                Grid.Row="3" 
+                                Grid.Column="1"
+                                Margin="3"
+                                Text="0"
+                                HorizontalAlignment="Stretch"
+                                Height="23"
+                                Minimum="0"/>
         </Grid>
         <Button Content="Добавить" Click="Button_Click"/>
     </StackPanel>
